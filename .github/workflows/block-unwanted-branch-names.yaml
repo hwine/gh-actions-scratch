@@ -20,12 +20,12 @@ jobs:
         min_length: 5 # Min length of the branch name
         max_length: 20 # Max length of the branch name
     - name: echo branch value
-      if: ${{ failure() }}
+      if: ${{ always() }}
       run: echo "after SHA- ${{ GITHUB.SHA }}" "REF- ${{ GITHUB.REF }}"
     - name: DeleteBadBranch
       if: ${{ failure() }}
       run: |
         /bin/pwd
-        ls -A .
+        ls -a .
         echo deleting ${{ github.ref }}
         git branch remove ${{ github.ref }}
