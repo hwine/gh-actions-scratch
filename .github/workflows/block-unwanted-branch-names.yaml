@@ -14,6 +14,8 @@ jobs:
         regex: '([a-z])+\/([a-z])+' # Regex the branch should match. This example enforces grouping
         allowed_prefixes: 'feature,stable,fix' # All branches should start with the given prefix
         # ignore: master,develop # Ignore exactly matching branch names from convention
+        # the easiest way to implement a banned list is to add them as
+        # "ignores", and then delete on success
         ignore:
         min_length: 5 # Min length of the branch name
         max_length: 20 # Max length of the branch name
@@ -21,4 +23,6 @@ jobs:
       run: echo "after SHA- ${{ GITHUB.SHA }}" "REF- ${{ GITHUB.REF }}"
     - name: DeleteBadBranch
       if: ${{ failure() }}
-      run: echo deleting ${{ github.branch }}
+      run: |
+        echo deleting ${{ github.ref }}
+        git branch remove ${{ github.ref }}
