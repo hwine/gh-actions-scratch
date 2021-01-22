@@ -6,6 +6,8 @@ jobs:
     name: ValidateBranchName
     runs-on: ubuntu-latest
     steps:
+    - name: echo branch value
+      run: echo "before SHA- ${{ GITHUB.SHA }}" "REF- ${{ GITHUB.REF }}"
     - uses: deepakputhraya/action-branch-name@master
       name: do branch validation
       with:
@@ -15,7 +17,7 @@ jobs:
         min_length: 5 # Min length of the branch name
         max_length: 20 # Max length of the branch name
     - name: echo branch value
-      run: echo "SHA- ${{ GITHUB.SHA }}" "REF- ${{ GITHUB.REF }}"
+      run: echo "after SHA- ${{ GITHUB.SHA }}" "REF- ${{ GITHUB.REF }}"
     - name: DeleteBadBranch
       if: ${{ failure() }}
       run: echo deleting ${{ github.branch }}
